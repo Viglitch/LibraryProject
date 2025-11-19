@@ -21,24 +21,57 @@ public class Main {
 
         Ivan.sendApplication(bookLotF);
         Ivan.resetPriority();
-        //happy flow
-        if (Andrey.isAvailable() || Sofia.isAvailable() || Michail.isAvailable()){
-            Sofia.scanDocuments(Ivan, bookLotF);
-            Sofia.updateBookStatus(bookLotF);
-            //TODO: добавить читателю книги
-        }
-        else {
-            //приоритет высокий, приборы заняты
-            //TODO: это пока условная проверка
-            if (Ivan.getPriority() > 0){
+        //высокий приоритет
+        if (Ivan.getPriority() > 0){
+            //приборы свободны
+            //TODO: автоматическая проверка и определение свободного
+            if (Andrey.isAvailable() || Sofia.isAvailable() || Michail.isAvailable()){
+                Sofia.scanDocuments(Ivan, bookLotF);
+                Sofia.updateBookStatus(bookLotF);
+                //TODO: добавить читателю книги
+            }
+            //приборы заняты
+            else{
                 //буфер свободен
                 if (bookLotF.checkBuffer()){
                     //TODO: это все должно быть где-то не здесь
                     bookLotF.addToBuffer();
                 }
+                //буфер занят
+                else {System.out.println("Мы не можем выдать эту книгу");}
             }
+        }
+        //приоритет низкий
+        else{
+            //приборы свободны
+            if(Andrey.isAvailable() || Sofia.isAvailable() || Michail.isAvailable()){
+                //нет заявок приоритета выше
+                //TODO: сортировка по заявкам
+                if (){
+                    Sofia.scanDocuments(Ivan, bookLotF);
+                    Sofia.updateBookStatus(bookLotF);
+                    //TODO: добавить читателю книги
+                }
+                //есть заявки приоритета выше
+                else {
+                    //буфер свободен
+                    if (bookLotF.checkBuffer()){
+                        //TODO: это все должно быть где-то не здесь
+                        bookLotF.addToBuffer();
+                    }
+                    //буфер занят
+                    else {System.out.println("Мы не можем выдать эту книгу");}
+                }
+            }
+            //приборы заняты
             else {
-                System.out.println("Мы не можем выдать эту книгу");
+                //буфер свободен
+                if (bookLotF.checkBuffer()){
+                    //TODO: это все должно быть где-то не здесь
+                    bookLotF.addToBuffer();
+                }
+                //буфер занят
+                else {System.out.println("Мы не можем выдать эту книгу");}
             }
         }
     }
