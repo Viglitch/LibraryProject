@@ -4,16 +4,42 @@ package org.example;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        //TODO: сделать общие списки
+        Book bookHP = new Book(1, "Гарри Поттер", "Джоан Роулинг", true);
+        Book bookHP2 = new Book(2, "Гарри Поттер часть 2", "Джоан Роулинг", true);
+        Book book451 = new Book(3, "451 градус по фаренгейту", "Рей Бредбери", true);
+        Book book100 = new Book(4, "Сто лет одиночества", "Габриэль гарсиа Маркес", true);
+        Book bookLotF = new Book(5, "Повелитель мух", "Уильям Голдинг", true);
 
-        // Press Shift+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
+        Reader Ivan = new Reader(1, "Книголюбов Иван Иванович",  5, 0);
+        Reader Maria = new Reader(2, "Книгенко Мария Станиславовна",  1, 1);
+        Reader Petr = new Reader(3, "Книгарян Петр Семенович",  0, 4);
 
-            // Press Shift+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
+        Librarian Andrey = new Librarian(1, "Отпускной Андрей Евгениевич", false);
+        Librarian Sofia = new Librarian(2, "Библиотенко София Михайловна", true);
+        Librarian Michail = new Librarian(3, "Рабочий Михаил Артемович", true);
+
+        Ivan.sendApplication(bookLotF);
+        Ivan.resetPriority();
+        //happy flow
+        if (Andrey.isAvailable() || Sofia.isAvailable() || Michail.isAvailable()){
+            Sofia.scanDocuments(Ivan, bookLotF);
+            Sofia.updateBookStatus(bookLotF);
+            //TODO: добавить читателю книги
+        }
+        else {
+            //приоритет высокий, приборы заняты
+            //TODO: это пока условная проверка
+            if (Ivan.getPriority() > 0){
+                //буфер свободен
+                if (bookLotF.checkBuffer()){
+                    //TODO: это все должно быть где-то не здесь
+                    bookLotF.addToBuffer();
+                }
+            }
+            else {
+                System.out.println("Мы не можем выдать эту книгу");
+            }
         }
     }
 }

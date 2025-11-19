@@ -1,14 +1,22 @@
 package org.example;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Application {
     int applicationId;
-    Date applicationDate;
+    LocalDate applicationDate;
     ApplicationStatus status;
     enum ApplicationStatus {PENDING, APPROVED, REJECTED, CANCELED};
     Book requestedBook;
-    Reader applicant;
+    String applicant;
+
+    public Application(Book book, String reader){
+        this.applicationId = book.applicationBuffer.size() + 1;
+        this.applicationDate = LocalDate.now();
+        this.status = ApplicationStatus.PENDING;
+        this.requestedBook = book;
+        this.applicant = reader;
+    }
 
     public void submitApplication()
     {

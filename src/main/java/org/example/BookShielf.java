@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class BookShielf {
     Map<Integer, Book> AllBooks;
-    List<Reader> Readers;
+    public List<Reader> readers;
     List<Librarian> Librarians;
 
     public void addBook(Book newBook){
