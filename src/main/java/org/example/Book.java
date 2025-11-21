@@ -5,14 +5,12 @@ import java.util.Queue;
 
 public class Book {
     private int bookID;
-    private String title;
+    public String title;
     private String author;
     private boolean isAvailable;
-    private Queue<Application> applicationBuffer;
-    //TODO: какая именно очередь?
+    public Queue<Application> applicationBuffer;
 
     public Book(int idN, String titleN, String authorN, boolean isAvailableN){
-        //TODO: id должен определяться автоматически
         this.bookID = idN;
         this.title = titleN;
         this.author = authorN;
@@ -23,13 +21,14 @@ public class Book {
         applicationBuffer.add(app);
     }
 
-    public void removeFromBuffer(int id){
-        //TODO: удаляет заявку с данным id
+    public void removeFromBuffer(Application app){
+        applicationBuffer.remove(app);
     }
-    public List<Application> sortApplications(){
-        List<Application> res;
-        //TODO: отсортировать по приоритету
-        return res;
+    public boolean sortApplications(){
+        for (Application app: applicationBuffer) {
+            if (app.applicant.getPriority() > 0) {return true;}
+        }
+        return false;
     }
     public void setAvailability() {this.isAvailable = !(this.isAvailable);}
     public boolean checkBuffer(){

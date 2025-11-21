@@ -9,8 +9,8 @@ public class Reader {
     int membershipYears;
     int remarksCount;
     List<Application> currentApplications;
+    List<Book> currentBooks;
     public Reader(int idN, String nameN, int yearsN, int remN){
-        //TODO: id должен определяться автоматически
         this.readerId = idN;
         this.name = nameN;
         this.membershipYears = yearsN;
@@ -24,9 +24,11 @@ public class Reader {
         res-=remarksCount;
         this.priority = res;
     };
-    public void sendApplication(Book b) {
+    public Application sendApplication(Book b) {
         Application apply = new Application(b, name);
-        b.addToBuffer(apply);
+        return apply;
     };
     public void cancelApplication(int applicationId) {};
+
+    public void addBook(Book b){currentBooks.add(b);};
 }

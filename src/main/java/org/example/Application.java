@@ -8,9 +8,9 @@ public class Application {
     ApplicationStatus status;
     enum ApplicationStatus {PENDING, APPROVED, REJECTED, CANCELED};
     Book requestedBook;
-    String applicant;
+    Reader applicant;
 
-    public Application(Book book, String reader){
+    public Application(Book book, Reader reader){
         this.applicationId = book.applicationBuffer.size() + 1;
         this.applicationDate = LocalDate.now();
         this.status = ApplicationStatus.PENDING;
