@@ -10,11 +10,14 @@ public class Application {
     Book requestedBook;
     Reader applicant;
 
-    public Application(Book book, Reader reader){
+    public Application(Book book){
         this.applicationId = book.applicationBuffer.size() + 1;
         this.applicationDate = LocalDate.now();
         this.status = ApplicationStatus.PENDING;
         this.requestedBook = book;
+    }
+
+    public void setReader(Reader reader){
         this.applicant = reader;
     }
 

@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
@@ -8,7 +9,7 @@ public class Book {
     public String title;
     private String author;
     private boolean isAvailable;
-    public Queue<Application> applicationBuffer;
+    public Queue<Application> applicationBuffer = new LinkedList<>();
 
     public Book(int idN, String titleN, String authorN, boolean isAvailableN){
         this.bookID = idN;

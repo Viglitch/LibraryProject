@@ -5,11 +5,4 @@ public class LibraryInstrument {
     InstrumentType type;
     enum InstrumentType {BARCODE_SCANNER, READER_CARD_SCANNER, PEN, ACCOUNT_BOOK};
     boolean isAvailable;
-
-    private Book scanBarcode(String code){
-
-    };
-    private Reader scanReaderCard(){
-
-    };
 }

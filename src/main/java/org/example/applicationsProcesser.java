@@ -3,6 +3,7 @@ package org.example;
 public class applicationsProcesser {
     public static void applicationsProcessing(BookShielf lib, Reader reader, Book book) {
         Application curApp = reader.sendApplication(book);
+        curApp.setReader(reader);
         reader.resetPriority();
         System.out.println("Обрабатываю заявку "+reader.name+" на книгу "+book.title);
         //высокий приоритет

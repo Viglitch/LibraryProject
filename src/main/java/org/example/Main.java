@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.List;
+import java.util.Random;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
@@ -34,5 +35,12 @@ public class Main {
         theLibrary.registerEmployee(Sofia);
         theLibrary.registerEmployee(Michail);
 
+        Random rnd = new Random();
+        applicationsProcesser process = new applicationsProcesser();
+        Reader reader = theLibrary.readers.get(rnd.nextInt(2));
+        Book book = theLibrary.AllBooks.get(rnd.nextInt(4));
+        for (int i=0; i<5; i++){
+            process.applicationsProcessing(theLibrary,reader, book);
+        }
     }
 }

@@ -1,15 +1,16 @@
 package org.example;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class BookShielf {
-    Map<Integer, Book> AllBooks;
-    public List<Reader> readers;
-    List<Librarian> librarians;
+    public List<Book> AllBooks = new ArrayList<>();
+    public List<Reader> readers = new ArrayList<>();
+    public List<Librarian> librarians = new ArrayList<>();
 
     public void addBook(Book newBook){
-        AllBooks.put(AllBooks.size(), newBook);
+        AllBooks.add(newBook);
     }
 
     public void registerReader(Reader newReader){

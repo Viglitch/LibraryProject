@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Reader {
@@ -8,8 +9,8 @@ public class Reader {
     String name;
     int membershipYears;
     int remarksCount;
-    List<Application> currentApplications;
-    List<Book> currentBooks;
+    List<Application> currentApplications = new ArrayList<>();
+    List<Book> currentBooks =  new ArrayList<>();
     public Reader(int idN, String nameN, int yearsN, int remN){
         this.readerId = idN;
         this.name = nameN;
@@ -25,7 +26,7 @@ public class Reader {
         this.priority = res;
     };
     public Application sendApplication(Book b) {
-        Application apply = new Application(b, name);
+        Application apply = new Application(b);
         return apply;
     };
     public void cancelApplication(int applicationId) {};
