@@ -8,10 +8,10 @@ public class ApplicationsProcessor {
         print(reader, book, lib, "обработка заявки");
         //высокий приоритет
         print(reader, book, lib, "проверка приоритета");
-        if (reader.getPriority() == 1){
+        if (reader.getPriority() < 3){
             print(reader, book, lib, "проверка приборов");
             //приборы свободны
-            if (lib.getAvailableStaff() != null) {
+            if (!lib.getAvailableStaff().isEmpty()) {
                 Librarian staff = lib.getAvailableStaff().get(0);
                 staff.scanDocuments(reader, book);
                 staff.updateBookStatus(book);
@@ -27,8 +27,17 @@ public class ApplicationsProcessor {
                     print(reader, book, lib, "заявка добавлена в очередь");
                 }
                 //буфер занят
-                //TODO: проверка приоритета
-                else {print(reader, book, lib, "заявка отклонена");}
+                else {
+                    print(reader, book, lib, "проверка возможности замены");
+                    //есть заявки со статусом ниже (можно заменить)
+                    if (book.checkReplace(reader.getPriority())){
+                        book.applicationBuffer.remove();
+                        book.applicationBuffer.add(curApp);
+                        print(reader, book, lib, "заявка занесена в очередь");
+                    }
+                    // все завяки выше
+                    else {print(reader, book, lib, "заявка отклонена");}
+                }
             }
         }
         //приоритет низкий

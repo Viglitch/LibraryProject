@@ -22,8 +22,8 @@ public class Main {
         theLibrary.addBook(bookLotF);
 
         Reader Ivan = new Reader(1, "Книголюбов иван иванович",  1);
-        Reader Maria = new Reader(2, "Книгенко мария станиславовна",  2);
-        Reader Petr = new Reader(3, "Книгарян петр семенович",  3);
+        Reader Maria = new Reader(2, "Книгенко мария станиславовна",  3);
+        Reader Petr = new Reader(3, "Книгарян петр семенович",  2);
         theLibrary.registerReader(Ivan);
         theLibrary.registerReader(Maria);
         theLibrary.registerReader(Petr);
@@ -52,10 +52,9 @@ public class Main {
 
         //приборы и буфер заняты
         process.applicationsProcessing(theLibrary,Petr,book451);
-        //TODO: проверка по приоритету
 
         //низкий приоритет, но приборы свободны
         Michail.available=true;
-        process.applicationsProcessing(theLibrary,Petr,book100);
+        process.applicationsProcessing(theLibrary,Maria,book100);
     }
 }

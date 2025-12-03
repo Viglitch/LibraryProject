@@ -11,37 +11,56 @@ public class Book {
     private boolean isAvailable;
     public Queue<Application> applicationBuffer = new LinkedList<>();
 
-    public Book(int idN, String titleN, String authorN, boolean isAvailableN){
+    public Book(int idN, String titleN, String authorN, boolean isAvailableN) {
         this.bookID = idN;
         this.title = titleN;
         this.author = authorN;
         this.isAvailable = isAvailableN;
     }
 
-    public void addToBuffer(Application app){
+    public void addToBuffer(Application app) {
         applicationBuffer.add(app);
     }
 
-    public void removeFromBuffer(Application app){
+    public void removeFromBuffer(Application app) {
         applicationBuffer.remove(app);
     }
-    public boolean sortApplications(){
-        for (Application app: applicationBuffer) {
-            if (app.applicant.getPriority() > 0) {return true;}
+
+    public boolean sortApplications() {
+        for (Application app : applicationBuffer) {
+            if (app.applicant.getPriority() > 0) {
+                return true;
+            }
         }
         return false;
     }
+
     public void setAvailability() {
         this.isAvailable = !(this.isAvailable);
     }
-    public boolean checkBuffer(){
-        if (this.applicationBuffer.size() >= 1) {return false;}
-        else {return true;}
+
+    public boolean checkBuffer() {
+        if (this.applicationBuffer.size() >= 1) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
-    public String getBuffer(){
+    public String getBuffer() {
         String res = "";
-        for (Application app: applicationBuffer){res+=app.applicant.name;}
+        for (Application app : applicationBuffer) {
+            res += app.applicant.name;
+        }
         return res;
     };
+
+    public boolean checkReplace(int curPriority){
+        for (Application app: applicationBuffer){
+            if (app.applicant.getPriority() > curPriority){
+                return true;
+            }
+        }
+        return false;
+    }
 }
