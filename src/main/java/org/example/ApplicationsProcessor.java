@@ -1,9 +1,8 @@
 package org.example;
 
-import java.util.Scanner;
-
-public class applicationsProcesser {
-    public static void applicationsProcessing(BookShielf lib, Reader reader, Book book) {
+public class ApplicationsProcessor {
+    public static void applicationsProcessing(Library lib, Reader reader, Book book) {
+        System.out.println("--------- заявка "+reader.name+" на книгу "+book.title+"------------");
         Application curApp = reader.sendApplication(book);
         curApp.setReader(reader);
         print(reader, book, lib, "обработка заявки");
@@ -13,11 +12,11 @@ public class applicationsProcesser {
             print(reader, book, lib, "проверка приборов");
             //приборы свободны
             if (lib.getAvailableStaff() != null) {
-                Librarian staff = lib.getAvailableStaff();
+                Librarian staff = lib.getAvailableStaff().get(0);
                 staff.scanDocuments(reader, book);
                 staff.updateBookStatus(book);
                 reader.addBook(book);
-                print(reader, book, lib, "обслуживание завершено");
+                print(reader, book, lib, "книга выдается");
             }
             //приборы заняты
             else{
@@ -37,15 +36,15 @@ public class applicationsProcesser {
             print(reader, book, lib, "проверка приоритета");
             //приборы свободны
             print(reader, book, lib, "проверка приборов");
-            if(lib.getAvailableStaff() != null){
+            if(!lib.getAvailableStaff().isEmpty()){
                 print(reader, book, lib, "проверка буфера по приоритету");
                 //нет заявок приоритета выше
                 if (!book.sortApplications()){
-                    Librarian staff = lib.getAvailableStaff();
+                    Librarian staff = lib.getAvailableStaff().get(0);
                     staff.scanDocuments(reader, book);
                     staff.updateBookStatus(book);
                     reader.addBook(book);
-                    print(reader, book, lib, "обслуживание завершено");
+                    print(reader, book, lib, "книга выдается");
                 }
                 //есть заявки приоритета выше
                 else {
@@ -68,13 +67,13 @@ public class applicationsProcesser {
                     print(reader, book, lib, "заявка добавлена в очередь");
                 }
                 //буфер занят
-                else {print(reader, book, lib, "проверка отклонена");}
+                else {print(reader, book, lib, "заявка отклонена");}
             }
         }
     }
 
-    public static void print(Reader reader, Book book, BookShielf lib, String status) {
-        System.out.println("| "+reader.getPriority()+"        |  "+book.getBuffer()+"  |  "
-                +lib.getAvailableStaff().name+"  |  "+status+"      |");
+    public static void print(Reader reader, Book book, Library lib, String status) {
+        System.out.println("| "+reader.getPriority()+"  |  "+book.getBuffer()+"  |  "
+                +lib.printStaff(lib.getAvailableStaff())+"  |  "+status+"  |");
     }
 }

@@ -41,7 +41,7 @@ public class Book {
 
     public String getBuffer(){
         String res = "";
-        for (Application app: applicationBuffer){res+=app.applicant;}
+        for (Application app: applicationBuffer){res+=app.applicant.name;}
         return res;
     };
 }

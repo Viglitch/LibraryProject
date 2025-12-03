@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        BookShielf theLibrary = new BookShielf();
+        Library theLibrary = new Library();
 
         Book bookHP = new Book(1, "Гарри Поттер", "Джоан Роулинг", true);
         Book bookHP2 = new Book(2, "Гарри Поттер часть 2", "Джоан Роулинг", true);
@@ -36,15 +36,14 @@ public class Main {
         theLibrary.registerEmployee(Michail);
 
         Random rnd = new Random();
-        applicationsProcesser process = new applicationsProcesser();
-        Scanner scanner = new Scanner(System.in);
+        ApplicationsProcessor process = new ApplicationsProcessor();
+
         System.out.println("_______________________________________");
-        System.out.println("| ИСТОЧНИК | БУФЕР | ПРИБОРЫ | СТАТУС |");
+        System.out.println("| NСТОЧНNК | БУФЕР | ПРNБОРЫ | СТАТУС |");
         System.out.println("---------------------------------------");
 
         //happy flow
         process.applicationsProcessing(theLibrary,Ivan,bookHP);
-        scanner.nextLine();
 
         //приборы заняты, буфер свободен
         Michail.available=false;

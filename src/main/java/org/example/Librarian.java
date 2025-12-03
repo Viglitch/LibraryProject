@@ -15,7 +15,6 @@ public class Librarian {
     public boolean isAvailable(){return available;}
     public void scanDocuments(Reader r, Book b){
         this.available = false;
-        System.out.println("Сотрудник "+ name +" занят обработкой заявки");
     };
     public void updateBookStatus(Book b) {
         b.setAvailability();

@@ -26,6 +26,5 @@ public class Reader {
 
     public void addBook(Book b){
         currentBooks.add(b);
-        System.out.println("Читатель "+name+" взял книгу "+b.title);
     };
 }
