@@ -11,25 +11,21 @@ public class Reader {
     int remarksCount;
     List<Application> currentApplications = new ArrayList<>();
     List<Book> currentBooks =  new ArrayList<>();
-    public Reader(int idN, String nameN, int yearsN, int remN){
+    public Reader(int idN, String nameN, int priority){
         this.readerId = idN;
         this.name = nameN;
-        this.membershipYears = yearsN;
-        this.remarksCount = remN;
+        this.priority = priority;
 
     };
     public int getPriority () {return priority;}
-    public void resetPriority() {
-        int res = 0;
-        res+=membershipYears;
-        res-=remarksCount;
-        this.priority = res;
-    };
     public Application sendApplication(Book b) {
         Application apply = new Application(b);
         return apply;
     };
     public void cancelApplication(int applicationId) {};
 
-    public void addBook(Book b){currentBooks.add(b);};
+    public void addBook(Book b){
+        currentBooks.add(b);
+        System.out.println("Читатель "+name+" взял книгу "+b.title);
+    };
 }

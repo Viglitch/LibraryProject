@@ -31,9 +31,17 @@ public class Book {
         }
         return false;
     }
-    public void setAvailability() {this.isAvailable = !(this.isAvailable);}
+    public void setAvailability() {
+        this.isAvailable = !(this.isAvailable);
+    }
     public boolean checkBuffer(){
-        if (this.applicationBuffer.size() > 5) {return false;}
+        if (this.applicationBuffer.size() >= 1) {return false;}
         else {return true;}
     }
+
+    public String getBuffer(){
+        String res = "";
+        for (Application app: applicationBuffer){res+=app.applicant;}
+        return res;
+    };
 }
