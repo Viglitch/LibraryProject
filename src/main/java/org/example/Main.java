@@ -1,60 +1,71 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
         Library theLibrary = new Library();
 
-        Book bookHP = new Book(1, "Гарри Поттер", "Джоан Роулинг", true);
-        Book bookHP2 = new Book(2, "Гарри Поттер часть 2", "Джоан Роулинг", true);
-        Book bookHP3 = new Book(2, "Гарри Поттер часть 3", "Джоан Роулинг", true);
+        Book bookHP = new Book(1, "Гарри Поттер (полный комплект)", "Джоан Роулинг", true);
+        Book bookHP1 = new Book(11, "Гарри Поттер часть 1", "Джоан Роулинг", true, bookHP);
+        Book bookHP2 = new Book(12, "Гарри Поттер часть 2", "Джоан Роулинг", true, bookHP);
+        Book bookHP3 = new Book(13, "Гарри Поттер часть 3", "Джоан Роулинг", true, bookHP);
+
+        bookHP.addVolume(bookHP1);
+        bookHP.addVolume(bookHP2);
+        bookHP.addVolume(bookHP3);
+
         Book book451 = new Book(3, "451 градус по фаренгейту", "Рей Бредбери", true);
         Book book100 = new Book(4, "Сто лет одиночества", "Габриэль гарсиа Маркес", true);
         Book bookLotF = new Book(5, "Повелитель мух", "Уильям Голдинг", true);
+
         theLibrary.addBook(bookHP);
+        theLibrary.addBook(bookHP1);
         theLibrary.addBook(bookHP2);
         theLibrary.addBook(bookHP3);
         theLibrary.addBook(book451);
         theLibrary.addBook(book100);
         theLibrary.addBook(bookLotF);
 
-        Reader Ivan = new Reader(1, "Книголюбов иван иванович",  1);
-        Reader Maria = new Reader(2, "Книгенко мария станиславовна",  3);
-        Reader Petr = new Reader(3, "Книгарян петр семенович",  2);
+        Reader Ivan = new Reader(1, "Иван",  1);
+        Reader Maria = new Reader(2, "Мария",  3);
+        Reader Petr = new Reader(3, "Петр",  2);
         theLibrary.registerReader(Ivan);
         theLibrary.registerReader(Maria);
         theLibrary.registerReader(Petr);
 
-        Librarian Andrey = new Librarian(1, "Отпускной Андрей Евгениевич", false);
-        Librarian Sofia = new Librarian(2, "Библиотенко София Михайловна", true);
-        Librarian Michail = new Librarian(3, "Рабочий Михаил Артемович", true);
-        theLibrary.registerEmployee(Andrey);
+        Librarian Sofia = new Librarian(2, "София", true);
         theLibrary.registerEmployee(Sofia);
-        theLibrary.registerEmployee(Michail);
 
-        Random rnd = new Random();
         ApplicationsProcessor process = new ApplicationsProcessor();
+        ApplicationProcessorAuto process2 = new ApplicationProcessorAuto();
 
-        System.out.println("_______________________________________");
-        System.out.println("| NСТОЧНNК | БУФЕР | ПРNБОРЫ | СТАТУС |");
-        System.out.println("---------------------------------------");
+        boolean auto = true;
 
-        //happy flow
-        process.applicationsProcessing(theLibrary,Ivan,bookHP);
-
-        //приборы заняты, буфер свободен
-        Michail.available=false;
-         process.applicationsProcessing(theLibrary,Maria,book451);
-         //TODO: пакетная обработка (трехтомники)
-
-        //приборы и буфер заняты
-        process.applicationsProcessing(theLibrary,Petr,book451);
-
-        //низкий приоритет, но приборы свободны
-        Michail.available=true;
-        process.applicationsProcessing(theLibrary,Maria,book100);
+        if (auto){
+            ArrayList<ArrayList<String>> data = process2.applicationsProcessing(theLibrary,Ivan,bookHP);
+            ArrayList<ArrayList<String>> data2 = process2.applicationsProcessing(theLibrary,Maria,book451);
+            ArrayList<ArrayList<String>> data3 = process2.applicationsProcessing(theLibrary,Petr,book451);
+            ArrayList<ArrayList<String>> data4 =process2.applicationsProcessing(theLibrary,Maria,book100);
+            String[] names = {"СТАТУС"};
+            TableWindow twAuto= new TableWindow(data, names);
+            twAuto.updateTableData(data2);
+            twAuto.updateTableData(data3);
+            twAuto.updateTableData(data4);
+        }
+        else {
+            ArrayList<ArrayList<String>> data = process.applicationsProcessing(theLibrary,Ivan,bookHP);
+            String[] names = {"ВРЕМЯ", "ИМЯ", "НАЗВАНИЕ", "ИСТОЧНИК", "ПРИБОРЫ", "БУФЕР", "СТАТУС"};
+            TableWindow tw= new TableWindow(data, names);
+            ArrayList<ArrayList<String>> data2 = process.applicationsProcessing(theLibrary,Maria,book451);
+            tw.updateTableData(data2);
+            ArrayList<ArrayList<String>> data3 = process.applicationsProcessing(theLibrary,Petr,book451);
+            tw.updateTableData(data3);
+            ArrayList<ArrayList<String>> data4 =process.applicationsProcessing(theLibrary,Maria,book100);
+            tw.updateTableData(data4);
+        }
     }
 }

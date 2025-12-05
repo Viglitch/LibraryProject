@@ -3,27 +3,55 @@ package org.example;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.ArrayList;
 
 public class Book {
     private int bookID;
     public String title;
-    private String author;
+    public String author;
     private boolean isAvailable;
     public Queue<Application> applicationBuffer = new LinkedList<>();
+    private List<Book> volumes; // Список томов для многотомных изданий
+    private boolean isVolume; // Является ли книгой томом
+    private Book parentBook; // Основная книга для томов
 
     public Book(int idN, String titleN, String authorN, boolean isAvailableN) {
         this.bookID = idN;
         this.title = titleN;
         this.author = authorN;
         this.isAvailable = isAvailableN;
+        this.volumes = new ArrayList<>();
+        this.isVolume = false;
+        this.parentBook = null;
+    }
+
+    // Конструктор для томов
+    public Book(int idN, String titleN, String authorN, boolean isAvailableN, Book parent) {
+        this.bookID = idN;
+        this.title = titleN;
+        this.author = authorN;
+        this.isAvailable = isAvailableN;
+        this.isVolume = true;
+        this.parentBook = parent;
+    }
+
+    // Метод для добавления тома
+    public void addVolume(Book volume) {
+        this.volumes.add(volume);
+    }
+
+    // Метод для получения всех томов
+    public List<Book> getVolumes() {
+        return new ArrayList<>(volumes);
+    }
+
+    // Метод для проверки, является ли книга многотомным изданием
+    public boolean isMultiVolume() {
+        return !volumes.isEmpty();
     }
 
     public void addToBuffer(Application app) {
         applicationBuffer.add(app);
-    }
-
-    public void removeFromBuffer(Application app) {
-        applicationBuffer.remove(app);
     }
 
     public boolean sortApplications() {
@@ -62,5 +90,10 @@ public class Book {
             }
         }
         return false;
+    }
+
+    // Геттер для доступности
+    public boolean isAvailable() {
+        return isAvailable;
     }
 }

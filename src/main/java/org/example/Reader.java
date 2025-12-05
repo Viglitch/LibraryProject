@@ -17,12 +17,11 @@ public class Reader {
         this.priority = priority;
 
     };
-    public int getPriority () {return priority;}
+    public Integer getPriority () {return priority;}
     public Application sendApplication(Book b) {
         Application apply = new Application(b);
         return apply;
     };
-    public void cancelApplication(int applicationId) {};
 
     public void addBook(Book b){
         currentBooks.add(b);

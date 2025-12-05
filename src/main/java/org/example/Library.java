@@ -19,17 +19,6 @@ public class Library {
         librarians.add(newLibrarian);
     }
 
-    public boolean processApplication(Application myApp){
-        //TODO: логика заявок
-        return true;
-    }
-
-    //public List<Book> getAvailableBooks(){
-    //    List<Book> res;
-        //TODO: а это вообще надо?
-    //   return res;
-    //}
-
     public List<Librarian> getAvailableStaff() {
         List<Librarian> res = new ArrayList<>();
         for (Librarian staff: librarians){
@@ -41,9 +30,9 @@ public class Library {
     public String printStaff(List<Librarian> librarians){
         String res = "";
         for (Librarian staff: librarians){
-            if (staff.isAvailable()){res+=staff.name;};
+            if (staff.isAvailable()){res+=staff.name; res+=" ,";}
         }
-        if (res.equals("")) {return "Нет библиотекарей";}
+        if (res.equals("")) {return "Нет";}
         else{return res;}
     };
 }

@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.time.LocalTime;
 
-public class ApplicationsProcessor {
+public class ApplicationProcessorAuto {
     public static ArrayList<ArrayList<String>> applicationsProcessing(Library lib, Reader reader, Book book) {
         ArrayList<ArrayList<String>> data = new ArrayList<>();
-        print(reader, book, lib, "начало обработки заявки", data);
 
         // Проверяем, является ли книга многотомным изданием
         if (book.isMultiVolume()) {
-            print(reader, book, lib, "обнаружено многотомное издание", data);
-
             // Получаем все тома
             ArrayList<Book> volumes = new ArrayList<>(book.getVolumes());
 
@@ -26,13 +23,11 @@ public class ApplicationsProcessor {
             }
 
             if (!allVolumesAvailable) {
-                print(reader, book, lib, "не все тома доступны", data);
                 return data;
             }
 
             // Обрабатываем каждый том
             for (Book volume : volumes) {
-                print(reader, volume, lib, "обработка тома: " + volume.title, data);
 
                 // Создаем заявку на каждый том
                 Application curApp = reader.sendApplication(volume);
@@ -44,13 +39,14 @@ public class ApplicationsProcessor {
                     staff.scanDocuments(reader, volume);
                     staff.updateBookStatus(volume);
                     reader.addBook(volume);
+                    print(reader, volume, lib, " получил ", data);
                 } else {
                     // Если нет свободных библиотекарей, добавляем в буфер
                     if (volume.checkBuffer()) {
                         volume.addToBuffer(curApp);
-                        print(reader, volume, lib, "том добавлен в очередь", data);
+                        print(reader, volume, lib, " встал в очередь на ", data);
                     } else {
-                        print(reader, volume, lib, "том: очередь заполнена", data);
+                        print(reader, volume, lib, " встал в очередь на ", data);
                     }
                 }
 
@@ -62,106 +58,88 @@ public class ApplicationsProcessor {
                 }
             }
 
-            print(reader, book, lib, "все тома обработаны", data);
-
         } else
         {
             Application curApp = reader.sendApplication(book);
             curApp.setReader(reader);
-            print(reader, book, lib, "обработка заявки", data);
             //высокий приоритет
-            print(reader, book, lib, "проверка приоритета", data);
             if (reader.getPriority() < 3) {
-                print(reader, book, lib, "проверка приборов", data);
                 //приборы свободны
                 if (!lib.getAvailableStaff().isEmpty()) {
                     Librarian staff = lib.getAvailableStaff().get(0);
                     staff.scanDocuments(reader, book);
                     staff.updateBookStatus(book);
                     reader.addBook(book);
-                    print(reader, book, lib, "книга выдается", data);
+                    print(reader, book, lib, " получил ", data);
                 }
                 //приборы заняты
                 else {
-                    print(reader, book, lib, "проверка буфера", data);
                     //буфер свободен
                     if (book.checkBuffer()) {
                         book.addToBuffer(curApp);
-                        print(reader, book, lib, "заявка добавлена в очередь", data);
+                        print(reader, book, lib, " встал в очередь на ", data);
                     }
                     //буфер занят
                     else {
-                        print(reader, book, lib, "проверка возможности замены", data);
                         //есть заявки со статусом ниже (можно заменить)
                         if (book.checkReplace(reader.getPriority())) {
                             book.applicationBuffer.remove();
                             book.applicationBuffer.add(curApp);
-                            print(reader, book, lib, "заявка занесена в очередь", data);
+                            print(reader, book, lib, " встал в очередь на ", data);
                         }
                         // все завяки выше
                         else {
-                            print(reader, book, lib, "заявка отклонена", data);
+                            print(reader, book, lib, " отказано в ", data);
                         }
                     }
                 }
             }
             //приоритет низкий
             else {
-                print(reader, book, lib, "проверка приоритета", data);
                 //приборы свободны
-                print(reader, book, lib, "проверка приборов", data);
                 if (!lib.getAvailableStaff().isEmpty()) {
-                    print(reader, book, lib, "проверка буфера по приоритету", data);
                     //нет заявок приоритета выше
                     if (!book.sortApplications()) {
                         Librarian staff = lib.getAvailableStaff().get(0);
                         staff.scanDocuments(reader, book);
                         staff.updateBookStatus(book);
                         reader.addBook(book);
-                        print(reader, book, lib, "книга выдается", data);
+                        print(reader, book, lib, " получил ", data);
                     }
                     //есть заявки приоритета выше
                     else {
-                        print(reader, book, lib, "проверка свободных мест в буфере", data);
                         //буфер свободен
                         if (book.checkBuffer()) {
                             book.addToBuffer(curApp);
-                            print(reader, book, lib, "заявка добавлена в очередь", data);
+                            print(reader, book, lib, " отказано в ", data);
                         }
                         //буфер занят
                         else {
-                            print(reader, book, lib, "заявка отклонена", data);
+                            print(reader, book, lib, " отказано в", data);
                         }
                     }
                 }
                 //приборы заняты
                 else {
                     //буфер свободен
-                    print(reader, book, lib, "проверка свободных мест в буфере", data);
                     if (book.checkBuffer()) {
                         book.addToBuffer(curApp);
-                        print(reader, book, lib, "заявка добавлена в очередь", data);
+                        print(reader, book, lib, " встал в очередь на ", data);
                     }
                     //буфер занят
                     else {
-                        print(reader, book, lib, "заявка отклонена", data);
+                        print(reader, book, lib, " отказано в ", data);
                     }
                 }
             }
-        }
-
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
         return data;
     }
 
     public static void print(Reader reader, Book book, Library lib, String status, ArrayList<ArrayList<String>> data) {
-        LocalTime currentTime = LocalTime.now();
-        ArrayList<String> newRow = new ArrayList<>(Arrays.asList(currentTime.toString(), reader.name, book.title,
-                reader.getPriority().toString(), lib.printStaff(lib.getAvailableStaff()), book.getBuffer(), status));
+        ArrayList<String> newRow = new ArrayList<>(Arrays.asList(
+                reader.name + status + book.title
+        ));
         data.add(newRow);
     }
 }

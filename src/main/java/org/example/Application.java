@@ -21,15 +21,4 @@ public class Application {
         this.applicant = reader;
     }
 
-    public void submitApplication()
-    {
-        //TODO: добавить в книгу
-    }
-    public void cancelApplication()
-    {
-        //TODO: убрать из книги
-    }
-
-    public ApplicationStatus getStatus(){return status;}
-
 }
